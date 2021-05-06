@@ -1,0 +1,13 @@
+C:\Users\hrose\source\repos\Mancala2\Mancala2\obj\Debug\netcoreapp3.1\Mancala2.csprojAssemblyReference.cache
+C:\Users\hrose\source\repos\Mancala2\Mancala2\obj\Debug\netcoreapp3.1\Mancala2.AssemblyInfoInputs.cache
+C:\Users\hrose\source\repos\Mancala2\Mancala2\obj\Debug\netcoreapp3.1\Mancala2.AssemblyInfo.cs
+C:\Users\hrose\source\repos\Mancala2\Mancala2\obj\Debug\netcoreapp3.1\Mancala2.csproj.CoreCompileInputs.cache
+C:\Users\hrose\source\repos\Mancala2\Mancala2\bin\Debug\netcoreapp3.1\Mancala2.exe
+C:\Users\hrose\source\repos\Mancala2\Mancala2\bin\Debug\netcoreapp3.1\Mancala2.deps.json
+C:\Users\hrose\source\repos\Mancala2\Mancala2\bin\Debug\netcoreapp3.1\Mancala2.runtimeconfig.json
+C:\Users\hrose\source\repos\Mancala2\Mancala2\bin\Debug\netcoreapp3.1\Mancala2.runtimeconfig.dev.json
+C:\Users\hrose\source\repos\Mancala2\Mancala2\bin\Debug\netcoreapp3.1\Mancala2.dll
+C:\Users\hrose\source\repos\Mancala2\Mancala2\bin\Debug\netcoreapp3.1\Mancala2.pdb
+C:\Users\hrose\source\repos\Mancala2\Mancala2\obj\Debug\netcoreapp3.1\Mancala2.dll
+C:\Users\hrose\source\repos\Mancala2\Mancala2\obj\Debug\netcoreapp3.1\Mancala2.pdb
+C:\Users\hrose\source\repos\Mancala2\Mancala2\obj\Debug\netcoreapp3.1\Mancala2.genruntimeconfig.cache
