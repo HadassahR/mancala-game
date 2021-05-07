@@ -42,38 +42,47 @@ namespace Mancala2
             Console.WriteLine();
 
         }
-        /*
-         * Enter number cup - computer 1-6, player - 8-13
-         */
-        public int[] MakeMove(int player, int cup)
+
+        public void MoveMarbles(int marbles, int startingIndex)
         {
-            int marbles = board[cup];
-            board[cup] = 0;
-            
-            for (int ix = cup + 1; ix < board.Length; ix++)
+            for (int ix = startingIndex; ix < board.Length; ix++)
             {
-                if(marbles > 0)
+                //if 
+                //skip opponent mancala, based on player id passed to method
+                if (marbles > 0)
                 {
                     board[ix]++;
                     marbles--;
-                } 
+                }
+            }
+            //skip opponent mancala
+            
+        }
+        /*
+         * Enter number cup - computer 1-6, player - 8-13
+         */
+        public void MakeMove(int player, int cup)
+        {
+            int marbles = board[cup];
+            board[cup] = 0;
+
+            if(cup == 13)
+            {
+                board[cup] = 0;
+                MoveMarbles(marbles, 0);
+            }
+            else
+            {
+                MoveMarbles(marbles, (cup + 1));
             }
             if (marbles > 0)
             {
-                for (int ix = 0; ix < board.Length; ix++)
-                {
-                    if (marbles > 0)
-                    {
-                        board[ix]++;
-                        marbles--;
-                    }
-                }
+                MoveMarbles(marbles, 0);
             }
-
-            // Skip opponents mancala
+            
             // If land on own side and is empty, move player and opponents 
             // marbles (from opposite cup) to player's mancala
-            return board;
+            
         }
 
 
