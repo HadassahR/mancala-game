@@ -5,11 +5,13 @@ namespace Mancala2
 {
     class Program
     {
-        static int MAX_DEPTH = 4;  // default value reset inside ProcessConfiguration
-        static bool ALPHA_BETA = false;
+        //static int MAX_DEPTH = 4;  // default value reset inside ProcessConfiguration
+        //static bool ALPHA_BETA = false;
         static void Main(string[] args)
         {
-            Board board = new Board();
+            NewBoard board = new NewBoard();
+            board.ShowBoard();
+            board.MakeMove(1, 12);
             board.ShowBoard();
             //    bool gameOver = false;
             //    Board mancala = new Board(); 

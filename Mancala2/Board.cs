@@ -120,17 +120,17 @@ namespace Mancala2
         /* If stone distribution landed on player cup, opponents stones
          * are transferred from corresponding cup
          */
-        public Board StoneSwap(int player, int cup)
-        {
-            Board newBoard = new Board(board);
-            int playerToTakeFrom = player == 0 ? 1 : 0;
-            int cupToTakeFrom = player == 0 ? cup - 1 : cup + 1;
-            int stonesTaken = board[playerToTakeFrom, cupToTakeFrom];
-            board[playerToTakeFrom, cupToTakeFrom] = 0;
-            board[player, cup] += stonesTaken;
+        //public Board StoneSwap(int player, int cup)
+        //{
+        //    //Board newBoard = new Board(board);
+        //    int playerToTakeFrom = player == 0 ? 1 : 0;
+        //    int cupToTakeFrom = player == 0 ? cup - 1 : cup + 1;
+        //    int stonesTaken = board[playerToTakeFrom, cupToTakeFrom];
+        //    board[playerToTakeFrom, cupToTakeFrom] = 0;
+        //    board[player, cup] += stonesTaken;
 
-            return newBoard; 
-        }
+        //    return newBoard; 
+        //}
 
         public Boolean isValidMove(int player, int cup)
         {
