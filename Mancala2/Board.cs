@@ -69,33 +69,33 @@ namespace Mancala2
             int marbles = board[player, cup];
             board[player, cup] = 0;
 
-            return board; 
-           
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
+            return board;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             //int[] computerCups = { 6, 5, 4, 3, 2, 1, 0, 0, 1, 2, 3, 4, 5 };
             //int[] playerCups = { 0, 1, 2, 3, 4, 5, 6, 6, 5, 4, 3, 2, 1 };
 
@@ -135,32 +135,33 @@ namespace Mancala2
         public Boolean isValidMove(int player, int cup)
         {
 
-            bool validRange = (player == 0 && cup > 0 && cup < 7) ? true : false || 
+            bool validRange = (player == 0 && cup > 0 && cup < 7) ? true : false ||
                 (player == 1 && cup > -1 && cup < 6) ? true : false;
 
             bool containsStones = board[player, cup] > 0;
 
-            return validRange && containsStones; 
+            return validRange && containsStones;
         }
         public int whoWins()
         {
             if (board[FIRST_ROW, FIRST_COL] > board[LAST_ROW, LAST_COL])
             {
-                return 0; 
-            } else
+                return 0;
+            }
+            else
             {
-                return 1; 
+                return 1;
             }
         }
         public Boolean gameOver()
         {
             // implement
-            return false; 
+            return false;
 
         }
     }
 }
-    
+
 
 
 

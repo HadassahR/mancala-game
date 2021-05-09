@@ -1,7 +1,4 @@
-﻿using System;
-using System.Configuration;
-
-namespace Mancala2
+﻿namespace Mancala2
 {
     class Program
     {
@@ -11,7 +8,12 @@ namespace Mancala2
         {
             NewBoard board = new NewBoard();
             board.ShowBoard();
-            board.MakeMove(1, 12);
+            //board.MakeMove(1, 1);
+            //board.MakeMove(1, 2);
+            //board.MakeMove(1, 3);
+            //board.MakeMove(1, 4);
+            //board.MakeMove(1, 5);
+            board.MakeMove(1, 6);
             board.ShowBoard();
             //    bool gameOver = false;
             //    Board mancala = new Board(); 
