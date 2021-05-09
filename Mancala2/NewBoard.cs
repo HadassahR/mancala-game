@@ -140,6 +140,28 @@ namespace Mancala2
 
         }
 
+        public Boolean isValidMove()
+        {
+            // Checks if player can select that mancala, also checks that cup isn't empty 
+        }
+
+        public Boolean gameOver()
+        {
+            // Checks if all of one one players cups are empty
+        }
+
+        public void onGameOver()
+        {
+            // Moves all marbles from opponents cups to winners mancala
+        }
+
+        public int calculateWinner()
+        {
+            //  returns winning player based on which player has higher value in mancala
+        }
+
+        
+
     }
 }
 
