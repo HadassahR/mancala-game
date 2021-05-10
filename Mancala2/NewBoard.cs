@@ -64,10 +64,10 @@ namespace Mancala2
 
         }
 
-        public int MoveMarbles(int player, int marbles, int startingIndex)
+        public int MoveMarbles(int player, int marbles, int startingCup)
         {
             int landingCup = 0;
-            for (int ix = startingIndex; ix < board.Length; ix++)
+            for (int ix = startingCup; ix < board.Length; ix++)
             {
                 //skip opponent mancala, based on player id passed to method
                 if (player == 0 && ix == HUMAN_MANCALA)
@@ -210,13 +210,40 @@ namespace Mancala2
 
         public Boolean gameOver()
         {
-            return true;
-            // Checks if all of one one players cups are empty
+            bool computerStillHas = false;
+            bool humanStillHas = false;
+            for (int ix = 0; ix < HUMAN_MANCALA; ix++)
+            {
+                if (board[ix] > 0)
+                {
+                    computerStillHas = true;
+                    break;
+                }
+            }
+            for (int ix = HUMAN_MANCALA; ix < board.Length; ix++)
+            {
+                if (board[ix] > 0)
+                {
+                    humanStillHas = true;
+                }
+            }
+
+            return !computerStillHas || !humanStillHas;
         }
 
-        public void onGameOver()
+        public void onGameOver(int winner)
         {
-            // Moves all marbles from opponents cups to winners mancala
+            int startIndex = winner == 0 ? HUMAN_MANCALA : COMPUTER_MANCALA;
+            int endIndex = winner == 0 ? board.Length : HUMAN_MANCALA;
+            int playerMancala = winner == 0 ? COMPUTER_MANCALA : HUMAN_MANCALA;
+            int marbles = 0; 
+
+            for (int ix = startIndex; ix < endIndex; ix ++)
+            {
+                marbles += board[ix];
+                board[ix] = 0; 
+            }
+            board[playerMancala] += marbles; 
         }
 
         public int calculateWinner()
