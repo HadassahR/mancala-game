@@ -20,25 +20,47 @@ namespace Mancala2
 
         public void ShowBoard()
         {
-            Console.Write("     ");
+            const String FIVE_SPACE = "     "; 
+
+            Console.Write(FIVE_SPACE);
             for (int ix = board.Length - 1; ix > HUMAN_MANCALA; ix--)
             {
                 Console.Write("| " + board[ix] + " |");
             }
-            Console.Write("     ");
+
+            Console.Write(FIVE_SPACE);
             Console.WriteLine();
             Console.Write("( " + board[COMPUTER_MANCALA] + " )");
             Console.Write("                              ");
             Console.Write("( " + board[HUMAN_MANCALA] + " )");
             Console.WriteLine();
-            Console.Write("     ");
+            Console.Write(FIVE_SPACE);
+
             for (int ix = COMPUTER_MANCALA + 1; ix < HUMAN_MANCALA; ix++)
             {
                 Console.Write("| " + board[ix] + " |");
             }
-            Console.Write("     ");
+            Console.Write(FIVE_SPACE);
 
             Console.WriteLine();
+            Console.WriteLine("------------------------------------------");
+
+        }
+
+        public void MakeMove(int player, int cup)
+        {
+
+                Console.WriteLine(player == 0 ? "Computer chose cup " + cup : "Human chose cup " + cup);
+                int marbles = board[cup];
+                board[cup] = 0;
+                int playerMancala = player == 0 ? COMPUTER_MANCALA : HUMAN_MANCALA;
+
+                int landingCup = MoveMarbles(player, marbles, cup + 1);
+
+                if (board[landingCup] == 1 && landingCup != playerMancala && checkIfCurrentPlayersCup(player, cup))
+                {
+                    MarbleSwap(player, landingCup);
+                }
 
         }
 
@@ -64,7 +86,7 @@ namespace Mancala2
                     landingCup = ix;
                 }
             }
-            if(marbles > 0)
+            if (marbles > 0)
             {
                 MoveMarbles(player, marbles, 0);
             }
@@ -74,79 +96,121 @@ namespace Mancala2
 
         public void MarbleSwap(int player, int landingCup)
         {
-            //marble swap code
-            int marbles;
-            int opponentCup = 0;
+            int[] computer = { 1, 2, 3, 4, 5, 6 };
+            int[] human = { 8, 9, 10, 11, 12, 13 };
+            int[] playerCups = player == 0 ? computer : human;
+            int[] opponentCups = player == 0 ? human : computer;
             int playerMancala = player == 0 ? COMPUTER_MANCALA : HUMAN_MANCALA;
+
+
+            int opponentCup = 0; 
+
+            foreach (int ix in playerCups)
+            {
+                if (playerCups [ix] == landingCup)
+                {
+                    opponentCup = ix;
+                    break;
+                }
+            }
+
+            board[playerMancala] = board[landingCup] + board[opponentCup];
+            board[landingCup] = 0;
+            board[opponentCup] = 0; 
+
+
+
+
+
+
+
+
+
+
+            //int marbles;
+            //int opponentCup = 0;
+            //int playerMancala = player == 0 ? COMPUTER_MANCALA : HUMAN_MANCALA;
+
+            //if (player == 0)
+            //{
+            //    opponentCup = 6;
+            //    for (int ix = 8; ix < board.Length; ix++)
+            //    {
+            //        if (ix == landingCup)
+            //        {
+            //            break;
+            //        }
+            //        else
+            //        {
+            //            opponentCup--;
+            //        }
+            //    }
+            //}
+
+            //if (player == 1)
+            //{
+            //    opponentCup = 13;
+            //    for (int ix = 1; ix < HUMAN_MANCALA; ix++)
+            //    {
+            //        if (ix == landingCup)
+            //        {
+            //            break;
+            //        }
+            //        else
+            //        {
+            //            opponentCup--;
+            //        }
+            //    }
+            //}
+
+            //marbles = board[opponentCup] + board[landingCup];
+            //board[landingCup] = 0;
+            //board[opponentCup] = 0;
+            //board[playerMancala] += marbles;
+
+
+        }
+
+
+        public Boolean checkIfCurrentPlayersCup(int player, int cup)
+        {
+            bool valid = false;
+            int[] computer = { 1, 2, 3, 4, 5, 6 };
+            int[] human = { 8, 9, 10, 11, 12, 13 };
 
             if (player == 0)
             {
-                opponentCup = 6;
-                for (int ix = 8; ix < board.Length; ix++)
+                foreach (int n in human)
                 {
-                    if (ix == landingCup)
+                    if (n == cup)
                     {
+                        valid = true;
                         break;
-                    }
-                    else
-                    {
-                        opponentCup--;
                     }
                 }
             }
-
-            if (player == 1)
+            else
             {
-                opponentCup = 13;
-                for (int ix = 1; ix < HUMAN_MANCALA; ix++)
+                foreach (int n in computer)
                 {
-                    if (ix == landingCup)
+                    if (n == cup)
                     {
+                        valid = true;
                         break;
-                    }
-                    else
-                    {
-                        opponentCup--;
                     }
                 }
             }
-
-            marbles = board[opponentCup] + board[landingCup];
-            board[landingCup] = 0;
-            board[opponentCup] = 0;
-            board[playerMancala] += marbles;
-
-
+            return valid;
         }
 
-        /*
-         * Enter number cup - computer 1-6, player - 8-13
-         */
-        public void MakeMove(int player, int cup)
+        public Boolean isValidMove(int player, int cup)
         {
-
-            int marbles = board[cup];
-            board[cup] = 0;
-            int landingCup = 0;
-            int playerMancala = player == 0 ? COMPUTER_MANCALA : HUMAN_MANCALA;
-
-            landingCup = MoveMarbles(player, marbles, cup + 1);
-            
-            if (board[landingCup] == 1 && landingCup != playerMancala)
-            {
-                MarbleSwap(player, landingCup);
-            }
-
-
-        }
-
-        public Boolean isValidMove()
-        {
-            // Checks if player can select that mancala, also checks that cup isn't empty 
+            return checkIfCurrentPlayersCup(player, cup) && board[cup] > 0; 
         }
 
         public Boolean gameOver()
         {
+            return true;
             // Checks if all of one one players cups are empty
         }
 
@@ -157,10 +221,10 @@ namespace Mancala2
 
         public int calculateWinner()
         {
-            //  returns winning player based on which player has higher value in mancala
+            return board[COMPUTER_MANCALA] > board[HUMAN_MANCALA] ? 0 : 1; 
         }
 
-        
+
 
     }
 }
