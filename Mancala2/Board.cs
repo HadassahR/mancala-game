@@ -19,6 +19,14 @@ namespace Mancala2
             board[HUMAN_MANCALA] = 0;
         }
 
+        public Board(int[] other)
+        {
+            for (int cup = 0; cup < NR_CUPS; cup++)
+            {
+                board[cup] = other[cup];
+            }
+        }
+
         public void ShowBoard()
         {
             const String FIVE_SPACE = "     ";
@@ -48,9 +56,14 @@ namespace Mancala2
 
         }
 
-        public void MakeMove(Player player, int cup)
+        public Boolean IsValidMove(int cup)
         {
+            return board[cup] > 0;
+        }
 
+        public Board MakeMove(Player player, int cup)
+        {
+            Board newBoard = new Board(board);
             Console.WriteLine(player == Player.MAX ? "Computer chose cup " + cup : "Human chose cup " + cup);
             int marbles = board[cup];
             board[cup] = 0;
@@ -60,9 +73,12 @@ namespace Mancala2
 
             if (board[landingCup] == 1 && landingCup != playerMancala)
             {
+                Console.WriteLine("Do a marble swap");
+                Console.WriteLine("Player: " + player);
+                Console.WriteLine("Landing cup: " + landingCup);
                 MarbleSwap(player, landingCup);
             }
-
+            return newBoard;
         }
 
         public int MoveMarbles(Player player, int marbles, int startingCup)
@@ -70,7 +86,7 @@ namespace Mancala2
             int landingCup = 0;
             for (int ix = startingCup; ix < NR_CUPS; ix++)
             {
-                //skip opponent mancala, based on player id passed to method
+                //skip opponent mancala
                 if (player == Player.MAX && ix == HUMAN_MANCALA)
                 {
                     ix++;
@@ -79,6 +95,7 @@ namespace Mancala2
                 {
                     ix++;
                 }
+                // Maybe an issue here that ix increments twice
 
                 if (marbles > 0)
                 {
@@ -94,7 +111,6 @@ namespace Mancala2
             return landingCup;
         }
 
-
         public void MarbleSwap(Player player, int landingCup)
         {
             int[] computer = { 13, 12, 11, 10, 9, 8 };
@@ -103,61 +119,23 @@ namespace Mancala2
             int[] opponentCups = player == Player.MAX ? human : computer;
             int playerMancala = player == Player.MAX ? COMPUTER_MANCALA : HUMAN_MANCALA;
 
+            int playerCup = 0;
 
-            int opponentCup = 0;
-
-            foreach (int ix in playerCups)
+            for (int ix = 0; ix < opponentCups.Length; ix++)
             {
-                if (playerCups[ix] == landingCup)
+                if (opponentCups[ix] == landingCup)
                 {
-                    opponentCup = ix;
+                    playerCup = ix + 1;
                     break;
                 }
             }
 
-            board[playerMancala] += board[landingCup] + board[opponentCup];
+            board[playerMancala] += board[landingCup] + board[playerCup];
             board[landingCup] = 0;
-            board[opponentCup] = 0;
+            board[playerCup] = 0;
         }
 
-
-        //public Boolean checkIfCurrentPlayersCup(Player player, int cup)
-        //{
-        //    bool valid = false;
-        //    int[] computer = { 13, 12, 11, 10, 9, 8 };
-        //    int[] human = { 1, 2, 3, 4, 5, 6 };
-
-        //    if (player == Player.MAX)
-        //    {
-        //        foreach (int n in computer)
-        //        {
-        //            if (n == cup)
-        //            {
-        //                valid = true;
-        //                break;
-        //            }
-        //        }
-        //    }
-        //    else
-        //    {
-        //        foreach (int n in human)
-        //        {
-        //            if (n == cup)
-        //            {
-        //                valid = true;
-        //                break;
-        //            }
-        //        }
-        //    }
-        //    return valid;
-        //}
-
-        public Boolean isValidMove(int cup)
-        {
-            return checkIfCurrentPlayersCup(player, cup) && board[cup] > 0;
-        }
-
-        public Boolean gameOver()
+        public Boolean IsGameOver()
         {
             bool computerStillHas = false;
             bool humanStillHas = false;
@@ -176,11 +154,11 @@ namespace Mancala2
                     computerStillHas = true;
                 }
             }
-
+            // determine who was last player
             return !computerStillHas || !humanStillHas;
         }
 
-        public void onGameOver(Player lastPlayer)
+        public void OnGameOver(Player lastPlayer)
         {
             int startIndex = lastPlayer == Player.MAX ? HUMAN_MANCALA : COMPUTER_MANCALA;
             int endIndex = lastPlayer == Player.MAX ? board.Length : HUMAN_MANCALA;
@@ -190,75 +168,36 @@ namespace Mancala2
             for (int ix = startIndex; ix < endIndex; ix++)
             {
                 marbles += board[ix];
-                board[ix] = 0;
             }
             board[playerMancala] += marbles;
         }
 
-        public Player calculateWinner()
+        public Player GetWinner()
         {
             return board[COMPUTER_MANCALA] > board[HUMAN_MANCALA] ? Player.MAX : Player.MIN;
         }
 
-
         #region heuristic
+
         /*----------------------------------------------------------------------
          * assign a value between -1 (min is winning) and 1 (MAX is winning)
          * to the given board positin
          ---------------------------------------------------------------------*/
-        public double heuristicValue()
+        public double heuristicValue(Player player)
         {
             double retVal = 0.0;
-            if (isWin(Player.MAX))
+            if (this.IsGameOver())
             {
-                retVal = 1.0;
-            }
-            else if (isWin(Player.MIN))
+                this.OnGameOver(player);
+                retVal = this.GetWinner() == Player.MAX ? 1.0 : -1.0; 
+            } else
             {
-                retVal = -1.0;
+                return board[COMPUTER_MANCALA] - board[HUMAN_MANCALA] / NR_CUPS;
             }
-            else
-            {
-                retVal = heuristicColumsCount();
-            }
-            return retVal;
+            return retVal; 
         }
 
-        private double heuristicColumsCount()
-        {
-            double value = 0.0;
-            int midColumn = NR_COLS / 2;
-            for (int row = 0; row < NR_ROWS; ++row)
-            {
-                for (int col = 1; col <= midColumn; ++col)
-                {
-                    if (board[row, col] == Cell.RED)
-                    {
-                        value += col * 0.05;
-                    }
-                    else if (board[row, col] == Cell.BLACK)
-                    {
-                        value -= col * 0.05;
-                    }
-                }
-
-                for (int col = NR_COLS - 2; col > midColumn; --col)
-                {
-                    if (board[row, col] == Cell.RED)
-                    {
-                        value += (NR_COLS - col) * 0.05;
-                    }
-                    else if (board[row, col] == Cell.BLACK)
-                    {
-                        value -= (NR_COLS - col) * 0.05;
-                    }
-                }
-            }
-            return value;
-        }
         #endregion
-
-
     }
 }
 

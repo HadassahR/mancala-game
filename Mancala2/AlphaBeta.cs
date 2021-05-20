@@ -8,13 +8,9 @@ namespace Mancala2
         {
 
             double value = 0.0;
-            if (depth == 0)
+            if (depth == 0 || board.IsGameOver())
             {
-                value = board.heuristicValue();
-            }
-            else if (board.gameOver())
-            {
-                value = board.heuristicValue();
+                value = board.heuristicValue(player);
             }
             else
             {
@@ -24,9 +20,8 @@ namespace Mancala2
                 {
                     for (int cup = 0; cup < Board.NR_CUPS; ++cup)
                     {
-                        if (board.isValidMove(cup))
+                        if (board.IsValidMove(cup))
                         {
-                            // ********
                             Board nextPos = board.MakeMove(Player.MAX, cup);
                             double thisVal = Value(nextPos, depth - 1, alfa, beta, opponent);
                             if (thisVal > alfa)
@@ -45,7 +40,7 @@ namespace Mancala2
                 {
                     for (int cup = 0; cup < Board.NR_CUPS; ++cup)
                     {
-                        if (board.isValidMove(cup))
+                        if (board.IsValidMove(cup))
                         {
                             Board nextPos = board.MakeMove(Player.MIN, cup);
                             double thisVal = Value(nextPos, depth - 1, alfa, beta, opponent);
