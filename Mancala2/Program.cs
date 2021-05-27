@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 namespace Mancala2
 {
@@ -14,6 +15,29 @@ namespace Mancala2
             Board gameBoard = new Board();
             bool gameOver = false;
             gameBoard.ShowBoard();
+
+            while (true)
+            {
+                Console.Write("I am thinking about my move... ");
+                int compMove = new Random().Next(8, 14);
+                if (gameBoard.IsValidMove(compMove))
+                {
+                    gameBoard.MakeMove(Player.MAX, compMove);
+                    gameBoard.ShowBoard();
+                    if (gameBoard.IsGameOver())
+                    {
+                        gameBoard.OnGameOver(Player.MIN);
+                        gameOver = true;
+                    }
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Computer chose empty cup. Choosing again... ");
+                    continue;
+                }
+            }
+
             while (!gameOver)
             {
                 Console.Write("Your move: ");
@@ -22,18 +46,22 @@ namespace Mancala2
                 {
                     gameBoard.MakeMove(Player.MIN, theirMove);
                     gameBoard.ShowBoard();
-
+                    if (gameBoard.IsGameOver())
+                    {
+                        gameBoard.OnGameOver(Player.MIN);
+                        gameOver = true; 
+                    }
                 }
-
-                Console.Write("Computer move ");
-                int compMove = UserInput.getInteger("Enter a number between 8-13 ", 8, 13);
-                if (gameBoard.IsValidMove(compMove))
+                else
                 {
-                    gameBoard.MakeMove(Player.MAX, compMove);
-                    gameBoard.ShowBoard();
-
+                    Console.WriteLine("Please choose a cup that's not empty. ");
+                    continue;
                 }
+
+
+
             }
+            Console.WriteLine(gameBoard.GetWinner() + "wins!");
         }
 
 

@@ -50,9 +50,17 @@ namespace Mancala2
                 Console.Write("| " + board[ix] + " |");
             }
             Console.Write(FIVE_SPACE);
+            Console.WriteLine();
+            for (int ix = 0; ix < board.Length; ix++)
+            {
+                Console.WriteLine(ix + ": " + board[ix]);
+            }
+
+            Console.WriteLine("** After Player mancala: " + board[7]);
 
             Console.WriteLine();
             Console.WriteLine("------------------------------------------");
+
 
         }
 
@@ -73,15 +81,13 @@ namespace Mancala2
 
             if (board[landingCup] == 1 && landingCup != playerMancala)
             {
-                Console.WriteLine("Do a marble swap");
-                Console.WriteLine("Player: " + player);
-                Console.WriteLine("Landing cup: " + landingCup);
+                Console.WriteLine("Marble Swap!");
                 MarbleSwap(player, landingCup);
             }
             return newBoard;
         }
 
-        public int MoveMarbles(Player player, int marbles, int startingCup)
+        private int MoveMarbles(Player player, int marbles, int startingCup)
         {
             int landingCup = 0;
             for (int ix = startingCup; ix < NR_CUPS; ix++)
@@ -90,14 +96,10 @@ namespace Mancala2
                 if (player == Player.MAX && ix == HUMAN_MANCALA)
                 {
                     ix++;
-                }
-                if (player == Player.MIN && ix == COMPUTER_MANCALA)
+                } else if (player == Player.MIN && ix == COMPUTER_MANCALA)
                 {
                     ix++;
-                }
-                // Maybe an issue here that ix increments twice
-
-                if (marbles > 0)
+                } else if (marbles > 0)
                 {
                     board[ix]++;
                     marbles--;
@@ -111,7 +113,7 @@ namespace Mancala2
             return landingCup;
         }
 
-        public void MarbleSwap(Player player, int landingCup)
+        private void MarbleSwap(Player player, int landingCup)
         {
             int[] computer = { 13, 12, 11, 10, 9, 8 };
             int[] human = { 1, 2, 3, 4, 5, 6 };
@@ -129,7 +131,9 @@ namespace Mancala2
                     break;
                 }
             }
-
+            Console.WriteLine("landing cup: " + board[landingCup]);
+            Console.WriteLine("player cup: " + board[playerCup]);
+            Console.WriteLine("playerMancala: " + board[playerMancala]);
             board[playerMancala] += board[landingCup] + board[playerCup];
             board[landingCup] = 0;
             board[playerCup] = 0;
